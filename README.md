@@ -50,15 +50,17 @@ We're using pre-crimped leads because it's easier than soldering your own and it
 ## Assembly
 
 ### Step 1: Setup your Pi
- 1. Flash the SD card with Raspbian.
+ 1. Flash the SD card with Raspbian. The [2018-11-15 version of Raspbian](https://downloads.raspberrypi.org/raspbian/images/raspbian-2018-11-15/) is known to work. However, newer versions of Raspain and Raspberry Pi OS are also likely to work. 
 
- 2. Check out the code from the [fruit_genie_controller](fruit_genie_controller) directory onto yout Pi.
+ 2. Copy the code from the [fruit_genie_controller](fruit_genie_controller) directory onto yout Pi.
 
- 3. cd into the directory where you checked out the code and run npm install
+ 3. The controller code must be run using Node v8. You can get this by first installing [nvm](https://github.com/nvm-sh/nvm), then running `nvm install 8`. You must also have the `libasound2-dev` package installed, which you can get on Raspbian by running `sudo apt install libasound2-dev`.
 
- 4. Update the #DEFINE FIFO_DURATION from 0.5f to be 0.025f in your local node_modules/mpg123/src/output/alsa.c, node_modules/mpg123/src/output/coreaudio.c, and node_modules/mpg123/src/output/portaudio.c files. This will ensure 0 latency and deals with hardcoded buffer lengths.
+ 4. cd into the directory where you checked out the code and run npm install
 
- 5. Run _npm rebuild_
+ 5. Run `grep -r "FIFO_DURATION"` to find all files that use the macro FIFO_DURATION. These might be the files node_modules/mpg123/src/output/alsa.c, node_modules/mpg123/src/output/coreaudio.c, and node_modules/mpg123/src/output/portaudio.c. However, the precise locations and filenames might be different. Change `#define FIFO_DURATION` from 0.5f to be 0.025f in all files that define it. This will ensure 0 latency and deals with hardcoded buffer lengths.
+
+ 6. Run _npm rebuild_
 
  This application server runs on express and listens to the arduino serial input for fruit touches. The 8 inputs are compressed into one byte to reduce latency, and the sound is output using node-speaker (which pipes out to PCM).
 
@@ -89,7 +91,7 @@ TODO: Explanation of what this code is doing
 
 
 ### Step 4: Test and Tune
- 1. On the pi, run node app.js -- you may need to adjust the serial port depending on where you plugged your teensy into the Pi
+ 1. On the pi, run node app.js -- you may need to adjust the serial port depending on where you plugged your teensy into the Pi. The first lines that get printed should list all of the available serial ports. Look for the pnpId that starts with `usb-Teensyduino_USB_Serial`. Take code of the corresponding comName (on my system, this is `/dev/ttyACM0'`). Change line 33 to the correct serial port.
  
  2. Plug your headphones into the ⅛ inch jack on the Pi.
  
