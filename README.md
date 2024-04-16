@@ -91,7 +91,7 @@ TODO: Explanation of what this code is doing
 
 
 ### Step 4: Test and Tune
- 1. On the pi, run node app.js -- you may need to adjust the serial port depending on where you plugged your teensy into the Pi. The first lines that get printed should list all of the available serial ports. Look for the pnpId that starts with `usb-Teensyduino_USB_Serial`. Take code of the corresponding comName (on my system, this is `/dev/ttyACM0'`). Change line 33 to the correct serial port.
+ 1. On the pi, run node app.js -- you may need to adjust the serial port depending on where you plugged your teensy into the Pi. The first lines that get printed after you run app.js should list all of the available serial ports. Look for the pnpId that starts with `usb-Teensyduino_USB_Serial`. Take note of the corresponding comName (on my system, this is `/dev/ttyACM0'`). Change line 33 to the correct serial port.
  
  2. Plug your headphones into the ⅛ inch jack on the Pi.
  
