@@ -56,7 +56,7 @@ We're using pre-crimped leads because it's easier than soldering your own and it
 
  3. The controller code must be run using Node v8. You can get this by first installing [nvm](https://github.com/nvm-sh/nvm), then running `nvm install 8`. You must also have the `libasound2-dev` package installed, which you can get on Raspbian by running `sudo apt install libasound2-dev`.
 
- 4. cd into the directory where you checked out the code and run npm install
+ 4. cd into the `fruit_genie_controller` directory on your Pi, and run `npm install`
 
  5. Run `grep -r "FIFO_DURATION"` to find all files that use the macro FIFO_DURATION. These might be the files node_modules/mpg123/src/output/alsa.c, node_modules/mpg123/src/output/coreaudio.c, and node_modules/mpg123/src/output/portaudio.c. However, the precise locations and filenames might be different. Change `#define FIFO_DURATION` from 0.5f to be 0.025f in all files that define it. This will ensure 0 latency and deals with hardcoded buffer lengths.
 
